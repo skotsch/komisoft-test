@@ -8,7 +8,7 @@ use yii\behaviors\TimestampBehavior;
 class Device extends ActiveRecord
 {
     // Таблица БД
-    public function tableName()
+    public static function tableName()
     {
         return '{{%device}}';
     }

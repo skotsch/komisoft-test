@@ -8,7 +8,7 @@ use yii\behaviors\TimestampBehavior;
 class Store extends ActiveRecord
 {
     // Таблица БД
-    public function tableName()
+    public static function tableName()
     {
         return '{{%store}}';
     }
@@ -29,7 +29,7 @@ class Store extends ActiveRecord
         ];
     }
 
-    public function getDevice()
+    public function getDevices()
     {
         return $this->hasMany(Device::class, [
             'store_id' => 'id'
