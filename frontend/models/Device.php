@@ -27,7 +27,7 @@ class Device extends ActiveRecord
             [['serial_number'], 'string', 'max' => 255], // Строка макс. длиной 255 символов
             [['serial_number'], 'unique'], // Серийник уникален
             [['store_id'], 'integer'], // id - целое число
-            [['store_id'], 'exists', 
+            [['store_id'], 'exist', 
             'skipOnError' => true, 
             'targetClass' => Store::class, 
             'targetAttribute' => ['store_id' => 'id']], // проверяет что store_id существует в таблице stores
