@@ -116,6 +116,16 @@ class StoreController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionDevicesList($id)
+    {
+        $model = $this->findModel($id);
+        $devices = $model->devices; // Получаем все устройства склада через связь
+
+        return $this->renderAjax('_devices_list', [
+            'devices' => $devices,
+        ]);
+    }
+
     /**
      * Finds the Store model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

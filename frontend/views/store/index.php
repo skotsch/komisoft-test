@@ -4,6 +4,7 @@ use frontend\models\Store;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
+use yii\bootstrap5\Modal;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\StoreSearch $searchModel */
@@ -30,6 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'name',
                 'label' => 'Название склада',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->name, '#', [
+                        'title' => 'Просмотреть устройства',
+                        'data-toggle' => 'modal',
+                        'data-target' => '#devices-modal',
+                        'data-store-id' => $model->id,
+                        'data-store-name' => $model->name,
+                        'style' => 'cursor: pointer; text-decoration: underline;'
+                    ]);
+                },
             ],
             [
                 'attribute' => 'created_at',
@@ -43,5 +55,40 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <?php
+    // Модальное окно для списка устройств
+    Modal::begin([
+        'title' => 'Устройства на складе',
+        'id' => 'devices-modal',
+        'size' => 'modal-lg',
+    ]);
+    echo "<div id='modal-content'>Загрузка...</div>";
+    Modal::end();
+
+    // JavaScript для загрузки данных в модалку
+    $this->registerJs("
+        var devicesModal = new bootstrap.Modal(document.getElementById('devices-modal'));
+        
+        // Вешаем обработчик на клик по названию склада
+        $(document).on('click', '[data-store-id]', function(e) {
+            e.preventDefault();
+            
+            var storeId = $(this).data('store-id');
+            var storeName = $(this).data('store-name');
+            
+            // Обновляем заголовок модалки
+            $('#devices-modal .modal-title').text('Устройства на складе: ' + storeName);
+            $('#modal-content').html('Загрузка...');
+            
+            // Загружаем данные
+            $.get('" . \yii\helpers\Url::to(['store/devices-list']) . "', {id: storeId}, function (data) {
+                $('#modal-content').html(data);
+            });
+            
+            // Показываем модалку
+            devicesModal.show();
+        });
+    ");
+    ?>
 
 </div>
