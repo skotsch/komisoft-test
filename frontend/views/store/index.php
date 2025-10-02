@@ -3,14 +3,13 @@
 use frontend\models\Store;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\StoreSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Stores';
+$this->title = 'Склады';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="store-index">
@@ -18,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить склад', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,16 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'created_at',
+            ['class' => 'kartik\grid\SerialColumn'],
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Store $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'attribute' => 'name',
+                'label' => 'Название склада',
+            ],
+            [
+                'attribute' => 'created_at',
+                'label' => 'Дата создания',
+                'format' => 'datetime',
+            ],
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'header' => 'Действия',
             ],
         ],
     ]); ?>

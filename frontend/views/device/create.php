@@ -1,11 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\select2\Select2;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\Device $model */
 
-$this->title = 'Create Device';
+$this->title = 'Добавить устройство';
 $this->params['breadcrumbs'][] = ['label' => 'Devices', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

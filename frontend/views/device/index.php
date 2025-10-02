@@ -3,14 +3,15 @@
 use frontend\models\Device;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\DeviceSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Devices';
+$this->title = 'Устройства';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="device-index">
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Device', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить устройство', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,20 +28,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'serial_number',
-            'store_id',
-            'created_at',
+            ['class' => 'kartik\grid\SerialColumn'],
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Device $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'attribute' => 'serial_number',
+                'label' => 'Серийный номер',
+            ],
+            [
+                'attribute' => 'store_id',
+                'label' => 'Название склада',
+                'value' => 'store.name', // название склада вместо ID
+                'filter' => Select2::widget([ // Select2 для фильтра
+                    'model' => $searchModel,
+                    'attribute' => 'store_id',
+                    'data' => ArrayHelper::map(\frontend\models\Store::find()->all(), 'id', 'name'),
+                    'options' => ['placeholder' => 'Select a store...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]),
+            ],
+            [
+                'attribute' => 'created_at',
+                'label' => 'Дата создания',
+                'format' => 'datetime',
+            ],
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'header' => 'Действия',
             ],
         ],
     ]); ?>
-
 
 </div>

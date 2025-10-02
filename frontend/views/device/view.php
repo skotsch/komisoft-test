@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var frontend\models\Device $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Devices', 'url' => ['index']];
+$this->title = $model->serial_number;
+$this->params['breadcrumbs'][] = ['label' => 'Устройства', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить это устройство?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,9 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'serial_number',
-            'store_id',
-            'created_at',
+            [
+                'attribute' => 'serial_number',
+                'label' => 'Серийный номер',
+            ],
+            [
+                'attribute' => 'store_id',
+                'label' => 'Склад',
+                'value' => $model->store ? $model->store->name : 'Не указан',
+            ],
+            [
+                'attribute' => 'created_at',
+                'label' => 'Дата создания',
+                'format' => 'datetime',
+            ],
         ],
     ]) ?>
 
