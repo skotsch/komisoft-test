@@ -8,9 +8,12 @@ use yii\helpers\Html;
         <ul class="list-group">
             <?php foreach ($devices as $device): ?>
                 <li class="list-group-item">
-                    <?= Html::a($device->serial_number, ['device/view', 'id' => $device->id], [
+                    <?= Html::a($device->serial_number, 
+                    ['device/index', 'DeviceSearch[serial_number]' => $device->serial_number], 
+                    [
                         'target' => '_blank',
-                        'class' => 'device-link'
+                        'class' => 'text-primary',
+                        'title' => 'Открыть список устройств с фильтром по этому серийному номеру'
                     ]) ?>
                 </li>
             <?php endforeach; ?>
