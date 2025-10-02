@@ -16,7 +16,13 @@ class Device extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::class, // автозаполнение created_at
+            [
+                'class' => TimestampBehavior::class, // автозаполнение created_at
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                    // Убрал EVENT_BEFORE_UPDATE => ['updated_at']
+                ],
+            ],
         ];
     }
 
