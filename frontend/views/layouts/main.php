@@ -41,6 +41,7 @@ AppAsset::register($this);
         ['label' => 'Сведения', 'url' => ['/site/about']],
         ['label' => 'Склады', 'url' => ['/store/index']],
         ['label' => 'Устройства', 'url' => ['/device/index']],
+        ['label' => 'Перемещение устройств', 'url' => ['/batch/index']],
     ];
 
     echo Nav::widget([
