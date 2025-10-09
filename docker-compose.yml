@@ -31,6 +31,11 @@ services:
       - MYSQL_DATABASE=komisoft_test
       - MYSQL_USER=yii2advanced
       - MYSQL_PASSWORD=secret
+    command: [
+      'mysqld',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci'
+    ]
 
   #pgsql:
   #  image: postgres:9.5
